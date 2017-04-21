@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>git ssh 的私钥与公钥 | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="git,github,coding" />
+    
+    <meta name="description" content="在 github 或者 coding 中如果我们要 clone 一个项目通常有两种方式，一种是用过 https 直接 git clone 下来，这种方式的 clone 不用经过账户验证即可完成，但是在每次 push 的时候都会要求输入正确的账户与密码（当然，可以通过某些模式和配置来实现只需要一次输入，参考另一篇短记录《mac 下 git 通过 https 传输的疑惑》）；一种是用过 ssh 方式">
+<meta name="keywords" content="git,github,coding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git ssh 的私钥与公钥">
+<meta property="og:url" content="http://www.wuzhouyang.cn/git-key/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="在 github 或者 coding 中如果我们要 clone 一个项目通常有两种方式，一种是用过 https 直接 git clone 下来，这种方式的 clone 不用经过账户验证即可完成，但是在每次 push 的时候都会要求输入正确的账户与密码（当然，可以通过某些模式和配置来实现只需要一次输入，参考另一篇短记录《mac 下 git 通过 https 传输的疑惑》）；一种是用过 ssh 方式">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-153138.png">
+<meta property="og:updated_time" content="2017-04-18T11:08:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git ssh 的私钥与公钥">
+<meta name="twitter:description" content="在 github 或者 coding 中如果我们要 clone 一个项目通常有两种方式，一种是用过 https 直接 git clone 下来，这种方式的 clone 不用经过账户验证即可完成，但是在每次 push 的时候都会要求输入正确的账户与密码（当然，可以通过某些模式和配置来实现只需要一次输入，参考另一篇短记录《mac 下 git 通过 https 传输的疑惑》）；一种是用过 ssh 方式">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-153138.png">
+    
+
+    
+        <link rel="alternate" href="/" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <!-- build:css /opt/style.min.css -->
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45817/58f02a1af629d81ae86c270d.css">
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <!-- build:css /opt/gallery.min.css -->
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    <!-- endbuild -->
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Just writing somethings!</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-git-key" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        git ssh 的私钥与公钥
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/git-key/" class="article-date">
+            <time datetime="2017-04-06T02:39:53.000Z" itemprop="datePublished">2017-04-06</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/coding/">coding</a>, <a class="tag-link" href="/tags/git/">git</a>, <a class="tag-link" href="/tags/github/">github</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>在 github 或者 coding 中如果我们要 clone 一个项目通常有两种方式，一种是用过 https 直接 git clone 下来，这种方式的 clone 不用经过账户验证即可完成，但是在每次 push 的时候都会要求输入正确的账户与密码（当然，可以通过某些模式和配置来实现只需要一次输入，参考另一篇短记录<a href="/mac-git-https-osxkeychain/">《mac 下 git 通过 https 传输的疑惑》</a>）；一种是用过 ssh 方式 clone，这种方式的 clone 要求你是项目的相关负责人，也就是说必须通过相关的验证才能正确的 clone 下来，然后在每次 push 的时候都不用输入账户和密码，而这种验证方式则是用过配置公钥与私钥来完成。</p>
+<h3 id="生成私钥与公钥"><a href="#生成私钥与公钥" class="headerlink" title="生成私钥与公钥"></a>生成私钥与公钥</h3><p>window 用户需要打开 git bash，mac 和 linux直接使用自带 terminal 即可。<br>可以先看看此前有没有已经存在相关的密钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ls <span class="_">-a</span> ~/.ssh</div></pre></td></tr></table></figure></p>
+<p>如果并没有看到关于 id_rsa、id_rsa.pub 相关内容，那么可以放心接下来的步骤，如果是已经存在了，证明你已经弄过了，有必要的话也可以删除重来实验一次，反正结果都是不会影响到什么的。<br>主要以 GitHub 为例。为了实验，我清空了本机里面所有已有的密钥，并且在 GitHub 上新建一个用于测试的仓库。如图复制了新仓库的 ssh 链接</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-153138.png" alt="new repo ssh"></p>
+<p>打开 terminal 或者 git bash 选择合适的文件夹路径试图进行 clone，不出意料会得到如下阻拦信息</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-152441.png" alt=""></p>
+<p>这里主要的报错是下面这句而不是那个警告：</p>
+<blockquote>
+<p>Permission denied (publickey).</p>
+</blockquote>
+<p>可以知道，公钥验证失败。接下来就让我们来生成一对密钥。主要用到 <code>ssh-keygen</code> 命令<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-keygen -t rsa <span class="_">-f</span> ~/.ssh/github</div></pre></td></tr></table></figure></p>
+<p><code>-t</code> 代表加密类型，一般为<code>rsa</code>，<code>-f</code>为自定义文件名，这里的 github 就是密钥储存的文件名，最好把 <code>~/.ssh/</code>路径加上，或者你必须到用户的<code>.ssh</code> 目录下执行此操作<br>出现输入密码提示的地方直接回车即可，这里密码用于以后链接 ssh 的时候输入，也没有这种必要，所以就直接<code>enter</code>键跳过了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-172554.png" alt="enter"></p>
+<p>完成后在<code>.ssh</code>文件夹下会生成一对密钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ls ~/.ssh</div></pre></td></tr></table></figure></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-172940.png" alt="keys"></p>
+<p>github 就是新生成的私钥，github.pub 就是新生成的公钥。公钥主要用于部署到服务器端，私钥主要用于解密服务器端通过公钥加密的数据，所以，接下来我们需要将公钥部署到 GitHub 上面去，来到 GitHub 控制台到 setting 中，创建一个 ssh key</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-173458.png" alt="setting"></p>
+<p>复制新生成的公钥的内容到控制台的 <code>key</code> 中，<code>title</code>随便填，无所谓.就像下图</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-173843.png" alt="new key"></p>
+<p>因为这只是公钥内容，不怕泄漏，所以也就可以贴出来。</p>
+<h3 id="处理私钥"><a href="#处理私钥" class="headerlink" title="处理私钥"></a>处理私钥</h3><p>接下来就可以测试一下能不能正确地链接 GitHub 了，输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
+<p>出现错误了，还是公钥验证失败</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-174210.png" alt="error"></p>
+<p>这是因为我在生成密钥的时候修改了默认的文件名，默认是生成 id_rsa 还有 id_rsa.pub 两个文件，git 查找私钥的时候会寻找此名称的文件，所以被改名后自然是找不到私钥来解密了。那该如何才能识别呢，我试了一下，有两种方案。</p>
+<h4 id="ssh-add"><a href="#ssh-add" class="headerlink" title="ssh-add"></a>ssh-add</h4><p><strong> 第一种，是通过 <code>ssh-add</code> 将私钥添加进 ssh-agent 密钥管理器保管，git 解密服务端公钥将交给 ssh-agent 完成 </strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-add ~/.ssh/github</div></pre></td></tr></table></figure></p>
+<p>再测试一下 ssh 链接便可以正确链接</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/git-keyQQ20170415-215439.png" alt="success"></p>
+<h4 id="config文件"><a href="#config文件" class="headerlink" title="config文件"></a>config文件</h4><p><strong> 第二种，是通过 .ssh 下的 config 文件来设置对应的私钥 </strong></p>
+<p>为了验证，请讲 <code>ssh-add</code> 添加的私钥清空。<br>查看添加的私钥列表<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-add <span class="_">-l</span></div></pre></td></tr></table></figure></p>
+<p>清空私钥列表<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-add -D</div></pre></td></tr></table></figure></p>
+<p>为 .shh 文件夹添加 config 文件<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">touch ~/.ssh/config</div></pre></td></tr></table></figure></p>
+<p>编辑 config 文件<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">vi ~/.ssh/config</div></pre></td></tr></table></figure></p>
+<p>添加主要配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">Host github</div><div class="line">    HostName github.com</div><div class="line">    IdentityFile ~/.ssh/github</div></pre></td></tr></table></figure></p>
+<p><code>:wq</code> 退出后测试链接，可以看到也能成功连接了<br>简单解释一下，<code>Host</code>是一个简称，主要映射<code>HostName</code>，而<code>IdentityFile</code>则是私钥文件的位置，也就是说，测试连接的时候可以换成以下的命令<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh -T git@github</div></pre></td></tr></table></figure></p>
+<p>主机名 github 会自动转化为 github.com</p>
+<p>不难想，通过 config 这种方案可以简单地配置多账户、多托管平台的 ssh key，所以我自己是采用了这种方式。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/git-key/" data-id="cj1rvt08t00007oo71km71aer" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>取得联系 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google" href="/" target="_blank">
+                        <i class="icon fa fa-google"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/mac-git-https-osxkeychain/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            mac 下 git 通过 https 传输的疑惑
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/create-hexo-double-cname/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">搭建双线（github + coding）hexo博客</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/go-map-to-struct/" class="title">golang map类型数据反射转为对应struct类型数据</a></p>
+                            <p class="item-date"><time datetime="2017-04-18T07:35:26.000Z" itemprop="datePublished">2017-04-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/create-hexo-double-cname/" class="title">搭建双线（github + coding）hexo博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-14T08:32:14.000Z" itemprop="datePublished">2017-04-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/git-key/" class="title">git ssh 的私钥与公钥</a></p>
+                            <p class="item-date"><time datetime="2017-04-06T02:39:53.000Z" itemprop="datePublished">2017-04-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/mac-git-https-osxkeychain/" class="title">mac 下 git 通过 https 传输的疑惑</a></p>
+                            <p class="item-date"><time datetime="2017-04-05T05:48:23.000Z" itemprop="datePublished">2017-04-05</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/coding/" style="font-size: 20px;">coding</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/github/" style="font-size: 20px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <!-- build:js /opt/lightgallery.min.js -->
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    <!-- endbuild -->
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>搭建双线（github + coding）hexo博客 | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="github,coding,hexo" />
+    
+    <meta name="description" content="啰嗦因为买了自己的 vps，所以有捣鼓过搭博客的经验。之前搭建过 Wordpress 、Jekyll，说实在, Wordpress 更像是一套完善的程序，只要简单在 vps 上搭建 LNMP 或者等等环境，就能在 web 中通过界面操作和写文章，主题之类的也非常多，之前为了主题选了很久而且自己修改了一些，后来发现我的重心偏离了，浪费了太多时间，而且 Wordpress 的优点也是缺点–臃肿。之后听">
+<meta name="keywords" content="github,coding,hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建双线（github + coding）hexo博客">
+<meta property="og:url" content="http://www.wuzhouyang.cn/create-hexo-double-cname/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="啰嗦因为买了自己的 vps，所以有捣鼓过搭博客的经验。之前搭建过 Wordpress 、Jekyll，说实在, Wordpress 更像是一套完善的程序，只要简单在 vps 上搭建 LNMP 或者等等环境，就能在 web 中通过界面操作和写文章，主题之类的也非常多，之前为了主题选了很久而且自己修改了一些，后来发现我的重心偏离了，浪费了太多时间，而且 Wordpress 的优点也是缺点–臃肿。之后听">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnam/20170414171404.png">
+<meta property="og:updated_time" content="2017-04-18T11:08:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建双线（github + coding）hexo博客">
+<meta name="twitter:description" content="啰嗦因为买了自己的 vps，所以有捣鼓过搭博客的经验。之前搭建过 Wordpress 、Jekyll，说实在, Wordpress 更像是一套完善的程序，只要简单在 vps 上搭建 LNMP 或者等等环境，就能在 web 中通过界面操作和写文章，主题之类的也非常多，之前为了主题选了很久而且自己修改了一些，后来发现我的重心偏离了，浪费了太多时间，而且 Wordpress 的优点也是缺点–臃肿。之后听">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnam/20170414171404.png">
+    
+
+    
+        <link rel="alternate" href="/" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <!-- build:css /opt/style.min.css -->
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45817/58f02a1af629d81ae86c270d.css">
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <!-- build:css /opt/gallery.min.css -->
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    <!-- endbuild -->
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Just writing somethings!</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-create-hexo-double-cname" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        搭建双线（github + coding）hexo博客
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/create-hexo-double-cname/" class="article-date">
+            <time datetime="2017-04-14T08:32:14.000Z" itemprop="datePublished">2017-04-14</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/coding/">coding</a>, <a class="tag-link" href="/tags/github/">github</a>, <a class="tag-link" href="/tags/hexo/">hexo</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="啰嗦"><a href="#啰嗦" class="headerlink" title="啰嗦"></a>啰嗦</h3><p>因为买了自己的 vps，所以有捣鼓过搭博客的经验。之前搭建过 Wordpress 、Jekyll，说实在, Wordpress 更像是一套完善的程序，只要简单在 vps 上搭建 LNMP 或者等等环境，就能在 web 中通过界面操作和写文章，主题之类的也非常多，之前为了主题选了很久而且自己修改了一些，后来发现我的重心偏离了，浪费了太多时间，而且 Wordpress 的优点也是缺点–臃肿。之后听说 Jekyll 不错，与 Wordpress 不同的是 Jekyll 是静态页面工具，轻量、速度快，而且支持 markdown，所以我又捣鼓了一下，个人觉得它的命令比较杂，而且依赖 ruby， mac 上还好， window 上捣鼓真心烦。所以最终转向了 Hexo，依赖 Node.js，有着 jekyll 的优点，实乃前端必备啊。不多说了，下面贴出搭建 Hexo 以及配置双线的方法还有心得。</p>
+<h3 id="Github-Pages"><a href="#Github-Pages" class="headerlink" title="Github Pages"></a>Github Pages</h3><p>Github Page 就是我们必须用到的服务了，可以看看官方的说法：</p>
+<blockquote>
+<p>GitHub Pages allow you to publish web content to a github.com subdomain named after your username. With Pages, publishing web content becomes as easy as pushing to your GitHub repository.</p>
+</blockquote>
+<p>也就是说我们可以通过其服务来将我们的博客托管到其服务器上，Github 还提供子域名供解析。我们只要把博客 push 到仓库，就能随时更新自己的博客了。</p>
+<h4 id="新建-Github-Pages-仓库"><a href="#新建-Github-Pages-仓库" class="headerlink" title="新建 Github Pages 仓库"></a>新建 Github Pages 仓库</h4><p><div class="tip"><br>    请先拥有一个 Github 账户！<br></div><br>点击右上角头像新建一个仓库</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnam/20170414171404.png" alt="新建一个仓库"> </p>
+<p>仓库的名称必须是 <strong>用户名.github.io</strong>，这是 Github Pages 规定的，为了方便测试，也勾选了使用 README.MD 初始化选项</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-142922.png" alt="新建一个仓库"> </p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-143127.png" alt="新建的仓库"></p>
+<p>接下来在项目中新建一个 <code>index.html</code> 进行测试</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-143223.png" alt="index.html"><br><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-143303.png" alt="index.html"></p>
+<p>打开浏览器访问 <code>username.github.io</code> 就可以看到 <code>index.html</code> 的内容了</p>
+<h4 id="配置-GitHub-对应的密钥"><a href="#配置-GitHub-对应的密钥" class="headerlink" title="配置 GitHub 对应的密钥"></a>配置 GitHub 对应的密钥</h4><p><div class="tip"><br>    window 下使用 Git Bash，Mac 和 Linux 使用 terminal<br></div><br>因为使用 Hexo 都是一键部署的，而且为了实现一键部署到多个托管平台，所以这里是用 ssh 连接远程，关于详细配置私钥和迷钥的可以参考另一篇博文<a href="/git-key/">《git ssh 的私钥与公钥》</a>，这里直接贴代码</p>
+<p>生成 ssh 密钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-keygen -t rsa <span class="_">-f</span> ~/.ssh/github</div></pre></td></tr></table></figure></p>
+<p>得到一堆密钥，私钥为 <code>github</code>，公钥为 <code>github.pub</code>，可以列出查看<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ls <span class="_">-a</span> ~/.ssh</div></pre></td></tr></table></figure></p>
+<p>添加 <code>config</code> 配置文件,并通过 <code>vi</code> 编辑<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">touch ~/.ssh/config &amp; vi ~/.ssh/config</div></pre></td></tr></table></figure></p>
+<p>填写相关的配置信息到 <code>config</code> 中,注意有缩进<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">Host github</div><div class="line">    HostName github.com</div><div class="line">    IdentityFile ~/.ssh/github</div></pre></td></tr></table></figure></p>
+<p>复制公钥 <code>github.pub</code> 内容部署到 Github 的 ssh key 上面</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-120855.png" alt="ssh keys"></p>
+<p>添加完成后会看到 ssh keys 列表</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-121128.png" alt="ssh keys列表"></p>
+<p>测试 ssh 到 GitHub 的连接<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh -T git@github</div></pre></td></tr></table></figure></p>
+<p>测试成功会看到如下到提示</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-121330.png" alt="success"></p>
+<p>至此，GitHub pages 服务算是已经简单搭好了   </p>
+<h3 id="Coding-Pages"><a href="#Coding-Pages" class="headerlink" title="Coding Pages"></a>Coding Pages</h3><p>Coding Pages 是国内代码托管平台，为了实现双线搭建 Hexo，我把国内线路的访问托管到 Coding 上面，所以请先注册一个 coding 账户，新建一个 Coding Pages 项目仓库，为了直接能使用<code>username.coding.me</code>域名，名称必须与自己的账户名一样</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-140628.png" alt="create"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-140727.png" alt="repo name"></p>
+<p>打开项目，初始化一下仓库</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-144120.png" alt="init"></p>
+<p>添加一个 <code>index.html</code> 方便测试</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-144256.png" alt="index.html"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-144311.png" alt="index.html"></p>
+<p>打开侧边栏的<strong>Pages 服务</strong>，将<code>master</code>作为部署分支，保存即可</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-144501.png" alt="pages"></p>
+<p>打开浏览器，即可成功访问 <code>username.coding.me</code></p>
+<h4 id="配置-Coding-密钥"><a href="#配置-Coding-密钥" class="headerlink" title="配置 Coding 密钥"></a>配置 Coding 密钥</h4><p>通过 ssh 连接 Coding 时也需要进行认证，同样的需要配置对应 Coding 的密钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh-keygen -t rsa <span class="_">-f</span> ~/.ssh/coding</div></pre></td></tr></table></figure></p>
+<p>添加 <code>config</code> 配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">Host coding</div><div class="line">    HostName git.coding.net</div><div class="line">    IdentityFile ~/.ssh/coding</div></pre></td></tr></table></figure></p>
+<p>复制公钥 <code>coding.pub</code> 的内容部署到 Coding 服务端</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-145301.png" alt="ssh keys"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-145403.png" alt="ssh keys"></p>
+<p>没什么问题即可通过 ssh 连接测试<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ssh -T git@coding</div></pre></td></tr></table></figure></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-150852.png" alt="ssh 连接"></p>
+<h3 id="创建-Hexo-博客"><a href="#创建-Hexo-博客" class="headerlink" title="创建 Hexo 博客"></a>创建 Hexo 博客</h3><section class="tip"><br>    确保安装了 Git 和 Node.js<br></section>
+
+<p>安装 Hexo-cli<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">npm install hexo-cli -g</div></pre></td></tr></table></figure></p>
+<p>确保安装了 Hexo-cli，查看版本，看到版本信息即证明安装成功<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo -v</div></pre></td></tr></table></figure></p>
+<p><code>cd</code>到想要储存博客文件夹的目录路径，初始化一个 Hexo 博客，这里我命名为<code>oceania_blog</code><br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo init oceania_blog</div></pre></td></tr></table></figure></p>
+<p>Hexo 3.0 <code>init</code> 的时候已经会自动安装依赖了，如果发现根目录没有 <code>node_modules</code> 文件夹，可以手动安装依赖<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="built_in">cd</span> oceania_blog &amp; npm install</div></pre></td></tr></table></figure></p>
+<p>接下来直接使用 Hexo 自带命令就能本地预览你的博客了<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo s</div></pre></td></tr></table></figure></p>
+<p>浏览器打开 <code>localhost:4000</code>，可以看到一个简单的博客已经展现出来</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cname/QQ20170416-134056.png" alt="base blog"></p>
+<h3 id="部署-Hexo-到-GitHub-Pages"><a href="#部署-Hexo-到-GitHub-Pages" class="headerlink" title="部署 Hexo 到 GitHub Pages"></a>部署 Hexo 到 GitHub Pages</h3><p>博客根目录先安装插件依赖<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure></p>
+<p>打开博客根目录的 Hexo 配置文件 <code>_config.yml</code>，找到 deploy 节点并添加配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">deploy:</div><div class="line">- <span class="built_in">type</span>: git</div><div class="line">  repo: </div><div class="line">    github: git@github:wuzhouyang/wuzhouyang.github.io.git</div><div class="line">  name: wuzhouyang</div><div class="line">  email: oceaniawzy@gmail.com</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>由于我在<code>.ssh/config</code>文件中写的是别名，也就是<code>github</code>对应的是主机<code>github.com</code>，而仓库本来的连接是<code>git@github.com:wuzhouyang/wuzhouyang.github.io.git</code>，所以必须把连接改为<code>git@github:wuzhouyang/wuzhouyang.github.io.git</code><br>这里的<code>name</code>和<code>email</code>主要是 git 提交的用户信息，将会被显示在提交人那里，方便开发人员清楚提交人信息，如果不填的话会默认查找全局的 git 配置中的<code>user.name</code>和<code>user.email</code>，如果在全局的配置中也没有相关信息，则会直接使用所在电脑主机的用户名和主机名</p>
+<p>现在，可以使用命令直接部署生成的博客到服务器端了<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo d</div></pre></td></tr></table></figure></p>
+<p>可以看到 git 已经是提交成功了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-164558.png" alt="success"></p>
+<p>GitHub 的仓库中已经有了新生成的博客文件，打开浏览器访问对应的域名 <code>username.github.io</code>，可以看到博客已经被正常解析</p>
+<h3 id="部署-Hexo-到-Coding"><a href="#部署-Hexo-到-Coding" class="headerlink" title="部署 Hexo 到 Coding"></a>部署 Hexo 到 Coding</h3><p>同样的在 Coding 上获取项目对应的 ssh 地址，然后在博客的<code>_config.yml</code>找到<code>deploy</code>节点完善配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">deploy:</div><div class="line">- <span class="built_in">type</span>: git</div><div class="line">  repo: </div><div class="line">    github: git@github:wuzhouyang/wuzhouyang.github.io.git</div><div class="line">    coding: git@coding:wuzhouyang/wuzhouyang.git</div><div class="line">  name: wuzhouyang</div><div class="line">  email: oceaniawzy@gmail.com</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>最好先清除一下缓存<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">rm -rf .deploy_git</div><div class="line">hexo clean</div></pre></td></tr></table></figure></p>
+<p>然后就执行<code>hexo d</code>能正确同时部署到 Coding 平台上了，可打开<code>username.coding.me</code>看看最终效果</p>
+<h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>到这里，其实一个简单的个人博客已经实现了，也能同时部署到两个平台上，但是貌似部署到两个平台上后并没有什么用啊，访问的时候还是得分不同的域名，所以，下面就记录一下让这些不同的域名指向你自己域名的方法，实现双线访问，也就是海外访问时实际使用的是 GitHub 的域名指向，而国内访问时使用的是 Coding 的域名指向 </p>
+<section class="tip"><br>    首先你得拥有一个自己的域名<br></section>
+
+<p>到域名商控制台上添加域名解析，我的是在阿里云上面设置</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-173135.png" alt="域名解析"></p>
+<p>简单说明一下，<code>CANME</code>记录类型呢是将域名解析到另一个域名，因为这里我们必须把<code>username.github.io</code>和<code>username.coding.me</code>解析到自己的域名上，所以使用此记录类型；主机记录<code>@</code>代表空，例如我的域名为<code>wuzhouyang.cn</code>，便可以直接解析识别，主机记录<code>www</code>代表可以解析识别<code>www.wuzhouyang.cn</code>，这样以来，无论是输入哪一个，都会解析到同样的地址中；解析线路分海外和国内，海外主要设置 GitHub 的域名，国内主要设置 Coding 的域名</p>
+<p>配置完成后即可访问自己的域名了，但是会发现无论是国内还是海外的情况下，都返回了404</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-174022.png" alt="coding"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-174037.png" alt="github"></p>
+<p>接下来就来解决此问题</p>
+<p><strong>GitHub 的方法主要是添加一个<code>CNAME</code>文件供识别</strong>，在博客的<code>source</code>文件夹下新建一个<code>CNAME</code>文件，不带任何后缀，内容输入自己的顶级域名，我的就是<code>wuzhouyang.cn</code>，然后清空一下 Hexo 缓存后提交部署<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo clean</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">hexo d</div></pre></td></tr></table></figure>
+<p>完成后即可全局翻墙访问自己的域名看看能不能正确解析</p>
+<p><strong>Coding 平台提供了绑定域名的功能</strong>，只需到项目的控制台的 <em>Pages服务</em> 中设置即可，好处是可以绑定多个域名</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-225904.png" alt="bind"></p>
+<p>然后就可以回墙内试试自己的域名能不能访问了</p>
+<p>如果要求证双线路是否正确配置了，可以用在线 DNS 查询结果</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-230517.png" alt="dns查询"></p>
+<p>看到多个不同的域名则证明成功了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/create-hexo-double-cnameQQ20170416-230608.png" alt="dns查询"></p>
+<p>做记录有些累，先到此，以后再做修改</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/create-hexo-double-cname/" data-id="cj1rvt09400037oo7ggxu51i5" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>取得联系 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google" href="/" target="_blank">
+                        <i class="icon fa fa-google"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/git-key/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            git ssh 的私钥与公钥
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/go-map-to-struct/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">golang map类型数据反射转为对应struct类型数据</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/go-map-to-struct/" class="title">golang map类型数据反射转为对应struct类型数据</a></p>
+                            <p class="item-date"><time datetime="2017-04-18T07:35:26.000Z" itemprop="datePublished">2017-04-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/create-hexo-double-cname/" class="title">搭建双线（github + coding）hexo博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-14T08:32:14.000Z" itemprop="datePublished">2017-04-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/git-key/" class="title">git ssh 的私钥与公钥</a></p>
+                            <p class="item-date"><time datetime="2017-04-06T02:39:53.000Z" itemprop="datePublished">2017-04-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/mac-git-https-osxkeychain/" class="title">mac 下 git 通过 https 传输的疑惑</a></p>
+                            <p class="item-date"><time datetime="2017-04-05T05:48:23.000Z" itemprop="datePublished">2017-04-05</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/coding/" style="font-size: 20px;">coding</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/github/" style="font-size: 20px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <!-- build:js /opt/lightgallery.min.js -->
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    <!-- endbuild -->
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
