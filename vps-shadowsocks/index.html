@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>vps - Shadowsocks | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="vps,linux,centos,shadowsocks" />
+    
+    <meta name="description" content="注意：以下命令我都是通过普通用户使用  配置完一些基本的东西，接下来可以配置shadowsocks了。买国外vps怎能少得了ss。由于作者github已经删除了源码，我也不懂源码安装 -_- || 。所以我们直接奔向作者文档 ：https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%">
+<meta name="keywords" content="vps,linux,centos,shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vps - Shadowsocks">
+<meta property="og:url" content="http://www.wuzhouyang.cn/vps-shadowsocks/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="注意：以下命令我都是通过普通用户使用  配置完一些基本的东西，接下来可以配置shadowsocks了。买国外vps怎能少得了ss。由于作者github已经删除了源码，我也不懂源码安装 -_- || 。所以我们直接奔向作者文档 ：https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocksthumbnail.gif">
+<meta property="og:updated_time" content="2017-06-08T02:04:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vps - Shadowsocks">
+<meta name="twitter:description" content="注意：以下命令我都是通过普通用户使用  配置完一些基本的东西，接下来可以配置shadowsocks了。买国外vps怎能少得了ss。由于作者github已经删除了源码，我也不懂源码安装 -_- || 。所以我们直接奔向作者文档 ：https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocksthumbnail.gif">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/opt/style.min.css">
+    
+    
+
+    <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_25zh9f3hv8s8xgvi.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/29184/590992ddf629d80ea043f6c8.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45803/590ad459f629d81848e8c7e4.css"> -->
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="/opt/gallery.min.css">
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Yep, you are right.</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon iconfont icon-menu"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" href="/">主页</a>
+                                        </li>
+                                    
+                               
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/IT-Code/">IT-Code</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/My-Life/">My Life</a></li></ul>
+                                    
+                               
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" target="_blank" href="/resume">简历</a>
+                                        </li>
+                                    
+                               
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <span class="iconfont icon-sousuo"></span>
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="iconfont icon-close"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/IT-Code/">IT-Code</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-vps-shadowsocks" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        vps - Shadowsocks
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/vps-shadowsocks/" class="article-date">
+            <time datetime="2017-01-18T07:34:31.000Z" itemprop="datePublished">2017-01-18</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="iconfont icon-tag"></i>
+        <a class="tag-link" href="/tags/centos/">centos</a>, <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/shadowsocks/">shadowsocks</a>, <a class="tag-link" href="/tags/vps/">vps</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>注意：以下命令我都是通过普通用户使用</p>
+</blockquote>
+<p>配置完一些基本的东西，接下来可以配置<strong>shadowsocks</strong>了。买国外vps怎能少得了<strong>ss</strong>。由于作者github已经删除了源码，我也不懂源码安装 -_- || 。所以我们直接奔向作者文档 ：<br><a href="https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E</a><br>可以直接查看和安装，也可以直接看下文。</p>
+<h3 id="安装shadowsocks"><a href="#安装shadowsocks" class="headerlink" title="安装shadowsocks"></a>安装shadowsocks</h3><p>直接yum安装<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo yum install python-setuptools &amp;&amp; sudo easy_install pip</div><div class="line">sudo pip install shadowsocks</div></pre></td></tr></table></figure></p>
+<p>普通用户记得加<code>sudo</code>，可以加 <code>-y</code>忽略所有操作<br>最后你会看见愉快的<strong>Successfully</strong></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-84e458d263b45680.png" alt="complete"></p>
+<h3 id="启动shadowsocks"><a href="#启动shadowsocks" class="headerlink" title="启动shadowsocks"></a>启动shadowsocks</h3><p>文档有两种启动方式，一种直接命令行敲，我看这头太晕，所以我推荐用配置文件启动。<strong>shadowsocks</strong>默认是没有配置文件的，我们需要自己创建，转到 <code>/etc</code> 目录，创建 <strong>shadowscocks</strong> 目录 <code>sudo mkdir shadowsocks</code>，转到新建目录下创建新的配置文件<br><code>cd shadowsocks &amp;&amp; sudo vi ss.json</code>。填入以下一些字段对应的值即可：<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">      <span class="string">"server"</span>:my_server_ip,</div><div class="line">      <span class="string">"server_port"</span>:my_server_port,</div><div class="line">      <span class="string">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</div><div class="line">      <span class="string">"local_port"</span>:1080,</div><div class="line">      <span class="string">"password"</span>:my_shadowsocks_password,</div><div class="line">      <span class="string">"timeout"</span>:300,</div><div class="line">      <span class="string">"method"</span>:<span class="string">"aes-256-cfb"</span>,</div><div class="line">      <span class="string">"fast_open"</span>: <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>照着文档简单理解解释一下</p>
+<blockquote>
+<p>server     服务端监听的 IP地址，就是vps的IP<br>server_port       服务端监听的端口<br>local_address      本地地址，一般不做修改<br>local_port      本地端口，一般不做修改<br>password      shadowsocks密码<br>timeout      超时时间  秒<br>method      加密方式，一般就选<strong>aes-256-cfb</strong>或<strong>RC4-MD5</strong><br>fast_open      系统内核&gt;=3.7.1的可开启，优化速度性能</p>
+</blockquote>
+<p>我自己就是简单地配置下</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-be988da7b898de67.png" alt="ss.json"></p>
+<p>请注意，当你的<code>server</code>配置为你的vps ip的时候，在做启动或者自启动的时候可能会遇到报错的情况，如</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-7e5531c4e9880313.png" alt="log"></p>
+<p>此时请将 <code>server</code>设置为<code>0.0.0.0</code>（被这个问题困扰了很久）</p>
+<p>对了，如果防火墙运行中，记得打开防火墙端口<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo firewall-cmd --zone=public --add-port=端口/tcp --permanent</div><div class="line">sudo firewall-cmd --reload</div></pre></td></tr></table></figure></p>
+<p>然后可以开心地启动了<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo ssserver -c /etc/shadowsocks/ss.json <span class="_">-d</span> start`</div></pre></td></tr></table></figure></p>
+<p><code>-d start</code>代表后台运行</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-961d2e98aa98388c.png" alt="开启ssserver"></p>
+<h3 id="shadowsocks客户端"><a href="#shadowsocks客户端" class="headerlink" title="shadowsocks客户端"></a>shadowsocks客户端</h3><p>打开<strong>ssserver</strong>了，怎么连接呢，那就要配置客户端的<strong>shadowsocks</strong>了。在这里只讨论<strong>windows</strong>下的安装。<br>奔作者github下载客户端 <a href="https://github.com/shadowsocks/shadowsocks-windows" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-windows</a><br>噼里啪啦安装完打开。根据图示设置刚才设置的shadowsocks配置：</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-e2d22709a9d7a963.png" alt="添加"></p>
+<p>填入相关参数后选中连接即可：</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-84b4742e5d02c44d.png" alt="连接"></p>
+<p>系统代理模式有两种，一般选择PAC模式即可，减少翻墙流量：</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-3e081456e84af1d4.png" alt="PAC"></p>
+<p>然后你就可以愉快的google了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-a97cea6d6f0cd0dc.png" alt="google"></p>
+<h3 id="自启动"><a href="#自启动" class="headerlink" title="自启动"></a>自启动</h3><p>作者并没有提供自启动的说明。按照搜索我列几种自启动的方法。</p>
+<h5 id="第一种是最简单的，直接添加相应的启动命令到-etc-rc-local下便可以。"><a href="#第一种是最简单的，直接添加相应的启动命令到-etc-rc-local下便可以。" class="headerlink" title="第一种是最简单的，直接添加相应的启动命令到 /etc/rc.local下便可以。"></a>第一种是最简单的，直接添加相应的启动命令到 <code>/etc/rc.local</code>下便可以。</h5><p>记得给<code>rc.local</code>加上相应的执行权限 <code>chmod +x /etc/rc.local</code></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-9e869fc52730f13d.png" alt="添加命令"></p>
+<h5 id="第二种是创建一个新的服务，利用-Systemd。"><a href="#第二种是创建一个新的服务，利用-Systemd。" class="headerlink" title="第二种是创建一个新的服务，利用 Systemd。"></a>第二种是创建一个新的服务，利用 Systemd。</h5><p>在 <strong>/etc/systemd/system</strong>下新建服务文件<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo vi /etc/systemd/system/shadowsocks.service</div></pre></td></tr></table></figure></p>
+<p>在<strong>/lib/systemd/system</strong>下也可以，但是前者优先级更高：</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-1453fdd4130e12ba.png" alt="service"></p>
+<p>简单地说明一下（我也是参考网上来的）：</p>
+<blockquote>
+<p><strong>[Unit]</strong>      服务的说明<br>          Description    服务的描述<br>          After     服务的类别描述<br>   <strong>[Service]</strong>     运行服务的参数配置<br>          type     后台运行的形式<br>          ExecStart    服务启动要运行的命令<br>          PrivateTmp     给服务分配独立的临时空间<br>    <strong>[Install]</strong>     服务安装的相关设置<br>        WantedBy    可设置为多用户</p>
+</blockquote>
+<p>然后利用 <code>systemctl</code> 工具管理：</p>
+<blockquote>
+<p><strong>启动</strong>：<code>sudo systemctl start shadowoscks</code><br>   <strong>查看状态</strong> ： <code>sudo systemctl status shadowsocks</code><br>   <strong>允许开机自启动</strong> ：<code>sudo enable shadowsocks</code></p>
+</blockquote>
+<h5 id="第三种是使用supervisor守护进程，确保ss在无意间挂掉能自动重启"><a href="#第三种是使用supervisor守护进程，确保ss在无意间挂掉能自动重启" class="headerlink" title="第三种是使用supervisor守护进程，确保ss在无意间挂掉能自动重启"></a>第三种是使用supervisor守护进程，确保ss在无意间挂掉能自动重启</h5><p>安装 <strong>supervisor</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo pip install supervisor</div></pre></td></tr></table></figure></p>
+<p>直接使用模板创建配置文件（root权限）<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo su - root -c <span class="string">"echo_supervisord_conf &gt; /etc/supervisord.conf"</span></div></pre></td></tr></table></figure></p>
+<p>直接vim编辑配置文件<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo vi /etc/supervisord.conf</div></pre></td></tr></table></figure></p>
+<p>直接快捷键 <code>GA</code>+<code>Enter</code>键在文尾添加shadowsocks配置：</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">[program:shadowsocks]</div><div class="line"><span class="built_in">command</span>=ssserver -c /etc/shadowsocks/ss.json <span class="_">-d</span> start</div><div class="line">autorestart=<span class="literal">true</span> </div><div class="line">autostart=<span class="literal">true</span></div><div class="line">user=root</div><div class="line">stderr_logfile = /var/<span class="built_in">log</span>/supervisor/err.log</div></pre></td></tr></table></figure>
+</blockquote>
+<p>相信看属性知道啥意思，<code>stderr_logfile</code>是添加出错时的记录文件，以便排错。</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-43eda731662f4e02.png" alt="supervisorctl配置"></p>
+<p>然后就可以通过服务端<code>supervisor</code>来运行了<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo supervisord -c /etc/supervisord.conf</div></pre></td></tr></table></figure></p>
+<p>通过客户端命令来管理刚添加的<strong>program</strong>：</p>
+<blockquote>
+<p>启动：<code>sudo supervisorctl start shadowsocks</code><br>   停止：<code>sudo supervisorctl stop shadowsocks</code><br>   重启：<code>sudo supervisorctl restart shadowsocks</code></p>
+</blockquote>
+<p>如果修改了配置文件，记得更新一下<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo supervisorctl update</div></pre></td></tr></table></figure></p>
+<p>如果想杀死 <code>supervisord</code>进程<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ps -ef | grep supervisord</div></pre></td></tr></table></figure></p>
+<p>会看到例如</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-a3fd76702d4225ca.png" alt="Psupervisord进程"></p>
+<p>kill掉对应端口就行<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="built_in">kill</span> <span class="_">-s</span> SIGTERM 2254</div></pre></td></tr></table></figure></p>
+<p>将 <strong>supervisor</strong> 添加进开机自启<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo vi /etc/rc.local</div></pre></td></tr></table></figure></p>
+<p>在<strong>rc.local</strong>后面添加启动命令即可<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo supervisord -c /etc/supervisord.conf</div></pre></td></tr></table></figure></p>
+<p><strong>supervisor</strong>还可以利用web前端管理，在配置文件下加上：<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">[inet_http_server]</div><div class="line">port = 0.0.0.0:9001</div><div class="line">username = 登陆用户名</div><div class="line">password = 登陆密码</div></pre></td></tr></table></figure></p>
+<p>防火墙如果是开启的状态记得添加端口<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">sudo firewall-cmd --zone=public --permanent --add-port=9001/tcp</div><div class="line">sudo firewall-cmd --reload</div></pre></td></tr></table></figure></p>
+<p>在任意浏览器输入你的vps 公网IP:9001登陆后就可以进行管理了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-342beef0c6ef4269.png" alt="前端管理"></p>
+<p>做完任一个方案就可以安心<code>reboot</code>，实验是否正确自启了。</p>
+<h5 id="关于shadowsocks的启动错误"><a href="#关于shadowsocks的启动错误" class="headerlink" title="关于shadowsocks的启动错误"></a>关于<strong>shadowsocks</strong>的启动错误</h5><p>之前也有说过了，在做自启动的时候如果<strong>shadowsocks</strong>的配置不正确的话是会启动失败的。我就遇过一个自启动的问题，无论是<strong>rc.local</strong>还是配置<strong>systemd</strong>均无法正确自启动<strong>shadowsocks</strong>。后来才发现原来是可以查看<strong>shadowsocks</strong>的报错信息的。ss默认的日志信息在<code>/var/log/shadowsocks.log</code>中。<br>如果确认是<strong>shadowsocks</strong>的问题的话，请查看日志文件<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">cat /var/<span class="built_in">log</span>/shadowsocks.log</div></pre></td></tr></table></figure></p>
+<p>如果有报错会类似</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-7e5531c4e9880313.png" alt="报错"></p>
+<p>直接谷歌最后一行错误信息。我就直接谷歌后得到了答案</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/vps-shadowsocks2493427-fb7426ceeaeb7b08.png" alt="解决方案"></p>
+<p>所以根据我上面说的，<code>server</code> 最好配置为 <code>0.0.0.0</code>。</p>
+<p>大概就是这些了，以后想起点什么再编辑！</p>
+
+        </div>
+        <footer class="article-footer">
+            <span id="busuanzi_container_page_pv">
+    <span class="font cssa7776c51d18b79">本文浏览次数</span>
+    <span class="iconfont icon-liulan"></span>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/vps-shadowsocks/" data-id="cj3vchgpq0022goo7eus29zwl" class="article-share-link"><i class="iconfont icon-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://service.weibo.com/share/share.php?url=' + encodedUrl + '" class="article-share-sina" target="_blank" title="Sina"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ3Ni81MDQ3">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0]
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar">
+        <i class="toggle iconfont icon-arrow-right-double"></i>
+    </a>
+    <div class="sidebar-top">
+        <p>More :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="coding" href="https://coding.net/u/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-coding"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="jianshu" href="http://www.jianshu.com/u/824b4062fb33" target="_blank">
+                        <i class="iconfont icon-jianshu"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="segmentfault" href="https://segmentfault.com/u/oceania" target="_blank">
+                        <i class="iconfont icon-segmentfault"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="iconfont icon-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/vps-init/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            vps - 我的初始配置
+        
+        </p>
+        <i class="icon iconfont icon-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/angular2-4-webpack2-2-sass-image-not-pack/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">升级Angular2.4 和 Webpack2.2后遇到的 AOT build 中sass图片不打包的问题</p>
+        <i class="icon iconfont icon-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/you-dont-know-javascript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg)" alt="《你不知道的javascript》小记" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/you-dont-know-javascript/" class="title">《你不知道的javascript》小记</a></p>
+                            <p class="item-date"><time datetime="2017-06-13T09:02:28.000Z" itemprop="datePublished">2017-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/vue-cli-2-sass-webkit-flex/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/vue-cli-2-sass-webkit-flexthumbnail.gif)" alt="vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/vue-cli-2-sass-webkit-flex/" class="title">vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题</a></p>
+                            <p class="item-date"><time datetime="2017-05-18T07:49:17.000Z" itemprop="datePublished">2017-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/new-nikor-50-1-4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/new-nikor-50-1-4new-nikor-50-1-4DSCF1416-5.jpg)" alt="购入nikor 50mm f1.4 老镜头一枚" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/My-Life/">My Life</a></p>
+                            <p class="item-title"><a href="/new-nikor-50-1-4/" class="title">购入nikor 50mm f1.4 老镜头一枚</a></p>
+                            <p class="item-date"><time datetime="2017-05-10T10:55:29.000Z" itemprop="datePublished">2017-05-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/photos-layout-plugin-ocaskjs/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/photos-layout-plugin-ocaskjsdefault_css.png)" alt="写个小小图片布局插件 -- OCask.js" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/photos-layout-plugin-ocaskjs/" class="title">写个小小图片布局插件 -- OCask.js</a></p>
+                            <p class="item-date"><time datetime="2017-05-03T08:18:13.000Z" itemprop="datePublished">2017-05-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/use-gulp-to-optimize-hexo/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/use-gulp-to-optimize-hexogulp-in.png)" alt="使用 gulp 来优化自己的 hexo 博客" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/use-gulp-to-optimize-hexo/" class="title">使用 gulp 来优化自己的 hexo 博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-20T10:00:49.000Z" itemprop="datePublished">2017-04-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/angular/" style="font-size: 20px;">angular</a> <a href="/tags/aot/" style="font-size: 10px;">aot</a> <a href="/tags/centos/" style="font-size: 16px;">centos</a> <a href="/tags/coding/" style="font-size: 14px;">coding</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/css3/" style="font-size: 12px;">css3</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/github/" style="font-size: 18px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/hexo/" style="font-size: 12px;">hexo</a> <a href="/tags/hmr/" style="font-size: 12px;">hmr</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/npm-script/" style="font-size: 12px;">npm script</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/scss/" style="font-size: 16px;">scss</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/typescript/" style="font-size: 20px;">typescript</a> <a href="/tags/vps/" style="font-size: 16px;">vps</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-cli/" style="font-size: 10px;">vue-cli</a> <a href="/tags/vultr/" style="font-size: 12px;">vultr</a> <a href="/tags/webpack/" style="font-size: 16px;">webpack</a> <a href="/tags/无反/" style="font-size: 12px;">无反</a> <a href="/tags/镜头/" style="font-size: 10px;">镜头</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon iconfont icon-huojian"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <span id="busuanzi_container_site_pv">
+                    <span class="countfa iconfont icon-dianji"></span><span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span class="countfa iconfont icon-users"></span><span id="busuanzi_value_site_uv"></span>
+                </span>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <script src="/opt/header.min.js"></script>
+
+
+<script src="/opt/main-bsz.min.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular2+Webpack+HMR问题（热替换） | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="angular,typescript,webpack,hmr" />
+    
+    <meta name="description" content="在ng1时代，想要实现编码的所见即所得个人感觉配置是很简单的，无非就是gulp+browserSync，而且快速。但是在ng2时代，配合webpack做热替换是个头疼的事情，个人感觉相关文档和解决方案太少了，翻了很久的google和github才找到一点解决方案。下面说一下我是怎么做的：首先我们需要这俩个插件  angular2-hmr主要用来在根模块启动时做相关设置angular2-hmr-lo">
+<meta name="keywords" content="angular,typescript,webpack,hmr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2+Webpack+HMR问题（热替换）">
+<meta property="og:url" content="http://www.wuzhouyang.cn/angular-webpack-hmr/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="在ng1时代，想要实现编码的所见即所得个人感觉配置是很简单的，无非就是gulp+browserSync，而且快速。但是在ng2时代，配合webpack做热替换是个头疼的事情，个人感觉相关文档和解决方案太少了，翻了很久的google和github才找到一点解决方案。下面说一下我是怎么做的：首先我们需要这俩个插件  angular2-hmr主要用来在根模块启动时做相关设置angular2-hmr-lo">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-05413e8e89b22224.png">
+<meta property="og:updated_time" content="2017-05-24T14:07:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular2+Webpack+HMR问题（热替换）">
+<meta name="twitter:description" content="在ng1时代，想要实现编码的所见即所得个人感觉配置是很简单的，无非就是gulp+browserSync，而且快速。但是在ng2时代，配合webpack做热替换是个头疼的事情，个人感觉相关文档和解决方案太少了，翻了很久的google和github才找到一点解决方案。下面说一下我是怎么做的：首先我们需要这俩个插件  angular2-hmr主要用来在根模块启动时做相关设置angular2-hmr-lo">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-05413e8e89b22224.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/opt/style.min.css">
+    
+    
+
+    <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_25zh9f3hv8s8xgvi.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/29184/590992ddf629d80ea043f6c8.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45803/590ad459f629d81848e8c7e4.css"> -->
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="/opt/gallery.min.css">
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Yep, you are right.</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon iconfont icon-menu"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" href="/">主页</a>
+                                        </li>
+                                    
+                               
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/IT-Code/">IT-Code</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/My-Life/">My Life</a></li></ul>
+                                    
+                               
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" target="_blank" href="/resume">简历</a>
+                                        </li>
+                                    
+                               
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <span class="iconfont icon-sousuo"></span>
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="iconfont icon-close"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/IT-Code/">IT-Code</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-webpack-hmr" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular2+Webpack+HMR问题（热替换）
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/angular-webpack-hmr/" class="article-date">
+            <time datetime="2016-11-07T03:24:40.000Z" itemprop="datePublished">2016-11-07</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="iconfont icon-tag"></i>
+        <a class="tag-link" href="/tags/angular/">angular</a>, <a class="tag-link" href="/tags/hmr/">hmr</a>, <a class="tag-link" href="/tags/typescript/">typescript</a>, <a class="tag-link" href="/tags/webpack/">webpack</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>在ng1时代，想要实现编码的所见即所得个人感觉配置是很简单的，无非就是<strong>gulp+browserSync</strong>，而且快速。但是在ng2时代，配合webpack做热替换是个头疼的事情，个人感觉相关文档和解决方案太少了，翻了很久的google和github才找到一点解决方案。下面说一下我是怎么做的：<br>首先我们需要这俩个插件</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-05413e8e89b22224.png" alt="hmr插件"></p>
+<p>angular2-hmr主要用来在根模块启动时做相关设置<br>angular2-hmr-loader主要用于webpack loaders中，既然说需要那就需要吧<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">npm install angular2-hmr angular2-hmr-loader --save-dev</div></pre></td></tr></table></figure></p>
+<p>把main.ts修改一下，如下图</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-f7d9438049153d43.png" alt="main.ts"></p>
+<p>切换到根模块 app.module.ts下，引入刚才安装模块的相关函数</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-8bf61fc6ae1f5b8c.png" alt="app.module.ts"></p>
+<p>声明一下类型</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-3dc508e705d7dca3.png" alt="app.module.ts"></p>
+<p>对根模块类进行改造</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-136fff9a482fd183.png" alt="app.module.ts"></p>
+<p>切换到你的webpack配置文件<br>在匹配ts文件的loader中加入angular2-hmr-loader</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-webpack-hmr2493427-66daa86208af3282.png" alt="webpack配置文件"></p>
+<p>你也可以像图中一样，在程序启动打包的时候设置一下全局的变量来判断是不是生产环境，一般生产环境不用配置热替换了</p>
+<p>大功告成，安心启动程序吧。<br>不过这个热替换并没有想象中那么美好，由于项目中用到了bootstrap，举个例子，但我打开一个modal的时候，此时想要更改modal的css样式，但是热替换后modal竟然隐藏了，还有其他的类似下拉按钮组，热替换后一样都是隐藏了下拉部分。所以留待研究吧。我还是偏向于  gulp+browserSync，至于这么结合webpack，再看吧。。。</p>
+
+        </div>
+        <footer class="article-footer">
+            <span id="busuanzi_container_page_pv">
+    <span class="font cssa7776c51d18b79">本文浏览次数</span>
+    <span class="iconfont icon-liulan"></span>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/angular-webpack-hmr/" data-id="cj3vchgoi000ngoo7xde3bbz2" class="article-share-link"><i class="iconfont icon-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://service.weibo.com/share/share.php?url=' + encodedUrl + '" class="article-share-sina" target="_blank" title="Sina"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ3Ni81MDQ3">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0]
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar">
+        <i class="toggle iconfont icon-arrow-right-double"></i>
+    </a>
+    <div class="sidebar-top">
+        <p>More :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="coding" href="https://coding.net/u/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-coding"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="jianshu" href="http://www.jianshu.com/u/824b4062fb33" target="_blank">
+                        <i class="iconfont icon-jianshu"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="segmentfault" href="https://segmentfault.com/u/oceania" target="_blank">
+                        <i class="iconfont icon-segmentfault"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="iconfont icon-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/angular-translate-feature-module-problem/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            ng2-translate 结合特性模块问题
+        
+        </p>
+        <i class="icon iconfont icon-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/angular-multi-themes-directive/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Angular2 简单指令实现多主题功能（个人思路）</p>
+        <i class="icon iconfont icon-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/you-dont-know-javascript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg)" alt="《你不知道的javascript》小记" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/you-dont-know-javascript/" class="title">《你不知道的javascript》小记</a></p>
+                            <p class="item-date"><time datetime="2017-06-13T09:02:28.000Z" itemprop="datePublished">2017-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/vue-cli-2-sass-webkit-flex/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/vue-cli-2-sass-webkit-flexthumbnail.gif)" alt="vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/vue-cli-2-sass-webkit-flex/" class="title">vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题</a></p>
+                            <p class="item-date"><time datetime="2017-05-18T07:49:17.000Z" itemprop="datePublished">2017-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/new-nikor-50-1-4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/new-nikor-50-1-4new-nikor-50-1-4DSCF1416-5.jpg)" alt="购入nikor 50mm f1.4 老镜头一枚" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/My-Life/">My Life</a></p>
+                            <p class="item-title"><a href="/new-nikor-50-1-4/" class="title">购入nikor 50mm f1.4 老镜头一枚</a></p>
+                            <p class="item-date"><time datetime="2017-05-10T10:55:29.000Z" itemprop="datePublished">2017-05-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/photos-layout-plugin-ocaskjs/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/photos-layout-plugin-ocaskjsdefault_css.png)" alt="写个小小图片布局插件 -- OCask.js" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/photos-layout-plugin-ocaskjs/" class="title">写个小小图片布局插件 -- OCask.js</a></p>
+                            <p class="item-date"><time datetime="2017-05-03T08:18:13.000Z" itemprop="datePublished">2017-05-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/use-gulp-to-optimize-hexo/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/use-gulp-to-optimize-hexogulp-in.png)" alt="使用 gulp 来优化自己的 hexo 博客" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/use-gulp-to-optimize-hexo/" class="title">使用 gulp 来优化自己的 hexo 博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-20T10:00:49.000Z" itemprop="datePublished">2017-04-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/angular/" style="font-size: 20px;">angular</a> <a href="/tags/aot/" style="font-size: 10px;">aot</a> <a href="/tags/centos/" style="font-size: 16px;">centos</a> <a href="/tags/coding/" style="font-size: 14px;">coding</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/css3/" style="font-size: 12px;">css3</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/github/" style="font-size: 18px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/hexo/" style="font-size: 12px;">hexo</a> <a href="/tags/hmr/" style="font-size: 12px;">hmr</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/npm-script/" style="font-size: 12px;">npm script</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/scss/" style="font-size: 16px;">scss</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/typescript/" style="font-size: 20px;">typescript</a> <a href="/tags/vps/" style="font-size: 16px;">vps</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-cli/" style="font-size: 10px;">vue-cli</a> <a href="/tags/vultr/" style="font-size: 12px;">vultr</a> <a href="/tags/webpack/" style="font-size: 16px;">webpack</a> <a href="/tags/无反/" style="font-size: 12px;">无反</a> <a href="/tags/镜头/" style="font-size: 10px;">镜头</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon iconfont icon-huojian"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <span id="busuanzi_container_site_pv">
+                    <span class="countfa iconfont icon-dianji"></span><span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span class="countfa iconfont icon-users"></span><span id="busuanzi_value_site_uv"></span>
+                </span>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <script src="/opt/header.min.js"></script>
+
+
+<script src="/opt/main-bsz.min.js"></script>
+
+    </div>
+</body>
+</html>

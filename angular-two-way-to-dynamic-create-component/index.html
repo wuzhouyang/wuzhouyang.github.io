@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular2(4) 中动态创建组件的两种方案 | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="angular,typescript" />
+    
+    <meta name="description" content="上例子：https://github.com/wuzhouyang/angular-dynamic-component-example  接触 angular2 也有好几月了，由于在做的项目dom的操作貌似比较频繁，而且并不能针对dom来编程，这样的话与模板的耦合度便十分大，所以只能针对组件编程，动态加载组件来实现项目中相关的功能，那就不得不用到angular2中一些比较低等级的api。此文要记">
+<meta name="keywords" content="angular,typescript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2(4) 中动态创建组件的两种方案">
+<meta property="og:url" content="http://www.wuzhouyang.cn/angular-two-way-to-dynamic-create-component/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="上例子：https://github.com/wuzhouyang/angular-dynamic-component-example  接触 angular2 也有好几月了，由于在做的项目dom的操作貌似比较频繁，而且并不能针对dom来编程，这样的话与模板的耦合度便十分大，所以只能针对组件编程，动态加载组件来实现项目中相关的功能，那就不得不用到angular2中一些比较低等级的api。此文要记">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-b7f9c4390369acde.png">
+<meta property="og:updated_time" content="2017-05-24T14:07:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular2(4) 中动态创建组件的两种方案">
+<meta name="twitter:description" content="上例子：https://github.com/wuzhouyang/angular-dynamic-component-example  接触 angular2 也有好几月了，由于在做的项目dom的操作貌似比较频繁，而且并不能针对dom来编程，这样的话与模板的耦合度便十分大，所以只能针对组件编程，动态加载组件来实现项目中相关的功能，那就不得不用到angular2中一些比较低等级的api。此文要记">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-b7f9c4390369acde.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/opt/style.min.css">
+    
+    
+
+    <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_25zh9f3hv8s8xgvi.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/29184/590992ddf629d80ea043f6c8.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45803/590ad459f629d81848e8c7e4.css"> -->
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="/opt/gallery.min.css">
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Yep, you are right.</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon iconfont icon-menu"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" href="/">主页</a>
+                                        </li>
+                                    
+                               
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/IT-Code/">IT-Code</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/My-Life/">My Life</a></li></ul>
+                                    
+                               
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" target="_blank" href="/resume">简历</a>
+                                        </li>
+                                    
+                               
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <span class="iconfont icon-sousuo"></span>
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="iconfont icon-close"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/IT-Code/">IT-Code</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-two-way-to-dynamic-create-component" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular2(4) 中动态创建组件的两种方案
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/angular-two-way-to-dynamic-create-component/" class="article-date">
+            <time datetime="2017-03-27T09:38:33.000Z" itemprop="datePublished">2017-03-27</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="iconfont icon-tag"></i>
+        <a class="tag-link" href="/tags/angular/">angular</a>, <a class="tag-link" href="/tags/typescript/">typescript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>上例子：<a href="https://github.com/wuzhouyang/angular-dynamic-component-example" target="_blank" rel="external">https://github.com/wuzhouyang/angular-dynamic-component-example</a></p>
+</blockquote>
+<p>接触 angular2 也有好几月了，由于在做的项目dom的操作貌似比较频繁，而且并不能针对dom来编程，这样的话与模板的耦合度便十分大，所以只能针对组件编程，动态加载组件来实现项目中相关的功能，那就不得不用到angular2中一些比较低等级的api。此文要记录的便是目前用到的两种动态创建组件的方案。</p>
+<h3 id="（一）动态加载已经声明的组件"><a href="#（一）动态加载已经声明的组件" class="headerlink" title="（一）动态加载已经声明的组件"></a>（一）动态加载已经声明的组件</h3><p>针对我的项目场景：用户拖动相关的块到特定区域，区域中便会生成相应的UI控件，此UI控件有自己的模板、行为等等。生成UI 后便会在区域中显示出来。所以我觉得将UI控件封为一个小组件，再动态加载，是个不错的方案。angular2中是如何动态加载组件的？</p>
+<p>要实现这个功能，得先简单了解angular2 中相关的api</p>
+<ul>
+<li><strong>ViewChild</strong>：一个属性装饰器，用来从模板视图中获取对应的元素，可以通过模板变量获取，获取时可以通过 read 属性设置查询的条件，就是说可以把此视图转为不同的实例</li>
+<li><strong>ViewContainerRef</strong> ：一个视图容器，可以在此上面创建、插入、删除组件等等</li>
+<li><strong>ComponentFactoryResolve</strong>：一个服务，动态加载组件的核心，这个服务可以将一个组件实例呈现到另一个组件视图上</li>
+</ul>
+<p>有了这三个，一个简单的思路便连贯了：<strong>特定区域就是一个视图容器，可以通过 ViewChild 来实现获取和查询，然后使用ComponentFactoryResolve将已声明未实例化的组件解析成为可以动态加载的 component，再将此component 呈现到此前的视图容器中</strong></p>
+<p>为了实现此功能，我写了一个简单的例子<br>我单独写了一个特性模块来测试，下面是结构图</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-b7f9c4390369acde.png" alt="例子模块"></p>
+<p>特性模块涉及到 lazyload 的知识，我也不多讲了。直接看结构说明</p>
+<ul>
+<li>dy1.component.ts</li>
+<li>dy2.component.ts    </li>
+</ul>
+<p>这两个就是将要动态加载的组件，内容不多，就是为了测试，如图</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-3f32cdce01a389aa.png" alt="dy1.component.ts"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-2774edc2da669575.png" alt="dy2.component.ts"></p>
+<ul>
+<li>dynamic.component.ts </li>
+</ul>
+<p>这个是此特性模块对应的组件实例，用于声明一些逻辑动作。简单看看此组件代码</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-1774f3630a1e1abb.png" alt="dynamic.component.ts"></p>
+<p>可以看到在顶部导入处必需的三个都在。在组件类的顶部我通过模板变量的方式获取了此组件模板视图上了一个元素来作为视图容器，可以看看模板的代码</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-fa3aab2751c0b315.png" alt="dynamic.component.ts"></p>
+<p>红框处便是我们要在上面动态加载组件的容器。<br>看看获取容器的代码</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-f3950e303ed79f13.png" alt="dynamic.component.ts"></p>
+<p>通过模板变量名获取，然后 可以通过 <strong>read</strong> 选项设置为一个 <strong>ViewContainerRef</strong> ，最终在生命钩期 <strong>ngAfterViewInit</strong> 过后便会获取此区域的一个 <strong>ViewContainerRef</strong> 实例。<br>看看主要的加载组件函数</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-54d9c9875f9b15cf.png" alt="dynamic.component.ts"></p>
+<p>我们已经通过组件类的构造函数注入了<strong>ComponentFactoryResolve</strong>服务，现在便可以调用其方法来解析得到一个 <strong>componentFactory</strong> 了，<strong>resolveComponentFactory</strong> 解析一个已经声明的组件得到一个可动态加载的 <strong>componentFactory</strong>，这里的<strong>DY1Component</strong>我们已经在顶部导入了。然后我们可以直接调用容器的<strong>createComponent</strong>函数将解析出来的<strong>componentFactory</strong>动态呈现到容器视图上。</p>
+<p>然后我们就可以开心的运行、点击 ”动态加载组件“ 的按钮了。。<br>不开心的是，报错了，相信我们可以得到这样的报错</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-d036affd2d11ec72.png" alt="error"></p>
+<p>原来动态加载的组件必须声明在特性模块的 <strong>entryComponents</strong> 中，下面是angular官网对于<strong>entryComponents</strong>的说明</p>
+<blockquote>
+<p>Specifies a list of components that should be compiled when this module is defined. For each component listed here, Angular will create a <a href="https://angular.cn/docs/ts/latest/api/core/index/ComponentFactory-class.html" target="_blank" rel="external">ComponentFactory
+</a> and store it in the <a href="https://angular.cn/docs/ts/latest/api/core/index/ComponentFactoryResolver-class.html" target="_blank" rel="external">ComponentFactoryResolver
+</a>.     </p>
+</blockquote>
+<p>就是说此处声明的组件 Angular 都会创建一个ComponentFactory并将其存储在ComponentFactoryResolver中，也就是动态加载必需的步骤。<br>所以我们将其加到特性模块 <strong>entryComponents</strong>中</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-82b2984caf77d6fe.png" alt="dynamicModule.module.ts"></p>
+<p>然后我们又可以开心地运行，点击了。。。<br>然而这次我们又得到另一个错误了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-b470b715fb1b72ae.png" alt="error"></p>
+<p>意思就是<strong>DY1Component</strong> 还没有声明 — — ||| 。 所以还需要将要动态加载的组件声明为是此特性模块的组件，如图</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-7a5ce3dcc830adb2.png" alt="dynamicModule.module.ts"></p>
+<p>然后这次可以开心的看例子了</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-27d3d4e26d016956.png" alt="demo"></p>
+<p>对于这个方案，上面展示的是最简单的一面，没有考虑到项目的优化还有代码的简洁。项目的优化问题体现在后期项目的压缩和预编译中，如果我们是想要通过组件的名字来动态加载组件，可能在优化有组件的名字都被统一压缩成一个字母，所以会导致找不到组件的问题；代码的简洁呢因人而异，我是喜欢保持根 module 的简洁，所以有必要另起文件来作为媒介。</p>
+<p>说一说改进的方式<br>新建一个管理类</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-1e35c8f71d550975.png" alt="comMgr.ts"></p>
+<p>导入动态加载的组件，声明一个供名字获取组件的变量，还有一个供根模块声明的变量</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-71b9916e5f5315db.png" alt="comMgr.ts"></p>
+<p>接下来就可以修改之前的引用代码了：</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-636e4acf70e4d423.png" alt="dynamicModule.module.ts"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-93709597155acd8b.png" alt="dynamic.component.ts"></p>
+<p>可以看到当动态组件多的时候，根 module还是能保持简洁。并且在根组件中可以通过名字获取对应的组件，不怕后期项目优化的影响。</p>
+<h3 id="（二）动态创建模块的方式来加载动态创建的组件"><a href="#（二）动态创建模块的方式来加载动态创建的组件" class="headerlink" title="（二）动态创建模块的方式来加载动态创建的组件"></a>（二）动态创建模块的方式来加载动态创建的组件</h3><p>不同的需求有不同的方案，对于上面的需求与方案无疑是很适合的，但是需要我们先创建好组件，再声明到根 module 中，至少缺失了一些灵活性。<br>现在我又有了另外一个项目场景：我拖动生成了UI 控件，只是为了展示对应的样式，UI控件是需要第三方环境支持的，所以我需要加工拖动的数据，抛给后台处理，后台返回包含表示模板、组件的字符串的 JSON 数据回来，然后我通知另外一个网站，此网站包含了第三方环境，让他们去动态创建这些组件。一句话概括，就是我要动态创建不存在的组件而不是已经声明的组件。<br>要完成动态创建组件的，我们得先看看相关的api</p>
+<ul>
+<li><strong>Compiler</strong>：用于在运行时运行angular编译器来创建 ComponentFactory 的服务，然后可以使用它来创建和呈现组件实例</li>
+</ul>
+<p>其实最简单的了解这一个就能实现了，我们知道 容器创建和呈现组件的函数需要一个 <strong>ComponentFactory</strong>，而Compiler能够在运行时动态创建一个<strong>ComponentFactory</strong>，那就十分符合需求了。</p>
+<p>我新增了一些代码</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-0bbab3a0312ab9b0.png" alt="dynamic.component.ts"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-7152c1c687247c99.png" alt="dynamic.component.ts"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-5fe864dd3f62d378.png" alt="dynamic.component.ts"></p>
+<p>这些都是在根组件中的代码，引入了 Compiler 服务。新增一个 <strong>createModule</strong>函数，通过 <strong>Component</strong> 和 <strong>NgModule</strong> 修饰器动态创建新的组件和模块，然后调用 <strong>Compiler</strong> 的 <strong>compileModuleAndAllComponentsSync</strong> 方法获取一个新的<strong>ComponentFactory</strong>。然后容器的呈现还是一样，直接 <strong>createComponent</strong>。在模板的按钮中设置对应的动作后就可以开心的运行和点击了。。</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-7b10387adaf63bec.png" alt="效果"></p>
+<p>这次十分顺利，没有任何报错。<br>可能我们会有疑惑，这个不也还是事先声明了动态的组件。<br>其实只是我这个例子展示的问题，这里的 模板、组件类都是可以动态当成参数设置的，下面此图是我在项目中用到的</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-e5a53ad650a696a9.png" alt="项目"></p>
+<h4 id="aot-build的问题"><a href="#aot-build的问题" class="headerlink" title="aot build的问题"></a>aot build的问题</h4><p>使用了这种方案，在项目正常开发预览的时候是没有任何问题的，但是当我构建项目（aot 等）运行的时候，就会出现下面报错</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-6232fb7f4e2b6f34.png" alt="error"></p>
+<p>看错误可以知道在项目构建后是缺失angular编译器的，原因就是使用了AOT后已经是预编译了，编译器就会从中移除。为了解决这一问题，我们可以在这个把 compiler 编译器在构建的时候打到当前的特性包中</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-97df0b246edf8c8d.png" alt="dynamic.component.ts"></p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-6f3d61ad8fb235fe.png" alt="dynamic.component.ts"></p>
+<p>通过此处代码就可以将一个angular 编译器打到当前包中。再次运行build构建，可以看到已经没有之前的错误了，但是缺因此得到另一个错误</p>
+<p><img src="http://oocdrjgwi.bkt.clouddn.com/angular-two-way-to-dynamic-create-component2493427-1f61044e8a6401da.png" alt="error"></p>
+<p>此错误暂时没能解决，待更新！</p>
+
+        </div>
+        <footer class="article-footer">
+            <span id="busuanzi_container_page_pv">
+    <span class="font cssa7776c51d18b79">本文浏览次数</span>
+    <span class="iconfont icon-liulan"></span>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/angular-two-way-to-dynamic-create-component/" data-id="cj3vchgo10009goo7ev25qbls" class="article-share-link"><i class="iconfont icon-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://service.weibo.com/share/share.php?url=' + encodedUrl + '" class="article-share-sina" target="_blank" title="Sina"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ3Ni81MDQ3">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0]
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar">
+        <i class="toggle iconfont icon-arrow-right-double"></i>
+    </a>
+    <div class="sidebar-top">
+        <p>More :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="coding" href="https://coding.net/u/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-coding"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="jianshu" href="http://www.jianshu.com/u/824b4062fb33" target="_blank">
+                        <i class="iconfont icon-jianshu"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="segmentfault" href="https://segmentfault.com/u/oceania" target="_blank">
+                        <i class="iconfont icon-segmentfault"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="iconfont icon-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/vps-ftp/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            vps - FTP
+        
+        </p>
+        <i class="icon iconfont icon-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/git-key/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">git ssh 的私钥与公钥</p>
+        <i class="icon iconfont icon-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/you-dont-know-javascript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg)" alt="《你不知道的javascript》小记" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/you-dont-know-javascript/" class="title">《你不知道的javascript》小记</a></p>
+                            <p class="item-date"><time datetime="2017-06-13T09:02:28.000Z" itemprop="datePublished">2017-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/vue-cli-2-sass-webkit-flex/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/vue-cli-2-sass-webkit-flexthumbnail.gif)" alt="vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/vue-cli-2-sass-webkit-flex/" class="title">vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题</a></p>
+                            <p class="item-date"><time datetime="2017-05-18T07:49:17.000Z" itemprop="datePublished">2017-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/new-nikor-50-1-4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/new-nikor-50-1-4new-nikor-50-1-4DSCF1416-5.jpg)" alt="购入nikor 50mm f1.4 老镜头一枚" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/My-Life/">My Life</a></p>
+                            <p class="item-title"><a href="/new-nikor-50-1-4/" class="title">购入nikor 50mm f1.4 老镜头一枚</a></p>
+                            <p class="item-date"><time datetime="2017-05-10T10:55:29.000Z" itemprop="datePublished">2017-05-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/photos-layout-plugin-ocaskjs/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/photos-layout-plugin-ocaskjsdefault_css.png)" alt="写个小小图片布局插件 -- OCask.js" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/photos-layout-plugin-ocaskjs/" class="title">写个小小图片布局插件 -- OCask.js</a></p>
+                            <p class="item-date"><time datetime="2017-05-03T08:18:13.000Z" itemprop="datePublished">2017-05-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/use-gulp-to-optimize-hexo/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/use-gulp-to-optimize-hexogulp-in.png)" alt="使用 gulp 来优化自己的 hexo 博客" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/use-gulp-to-optimize-hexo/" class="title">使用 gulp 来优化自己的 hexo 博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-20T10:00:49.000Z" itemprop="datePublished">2017-04-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/angular/" style="font-size: 20px;">angular</a> <a href="/tags/aot/" style="font-size: 10px;">aot</a> <a href="/tags/centos/" style="font-size: 16px;">centos</a> <a href="/tags/coding/" style="font-size: 14px;">coding</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/css3/" style="font-size: 12px;">css3</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/github/" style="font-size: 18px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/hexo/" style="font-size: 12px;">hexo</a> <a href="/tags/hmr/" style="font-size: 12px;">hmr</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/npm-script/" style="font-size: 12px;">npm script</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/scss/" style="font-size: 16px;">scss</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/typescript/" style="font-size: 20px;">typescript</a> <a href="/tags/vps/" style="font-size: 16px;">vps</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-cli/" style="font-size: 10px;">vue-cli</a> <a href="/tags/vultr/" style="font-size: 12px;">vultr</a> <a href="/tags/webpack/" style="font-size: 16px;">webpack</a> <a href="/tags/无反/" style="font-size: 12px;">无反</a> <a href="/tags/镜头/" style="font-size: 10px;">镜头</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon iconfont icon-huojian"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <span id="busuanzi_container_site_pv">
+                    <span class="countfa iconfont icon-dianji"></span><span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span class="countfa iconfont icon-users"></span><span id="busuanzi_value_site_uv"></span>
+                </span>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <script src="/opt/header.min.js"></script>
+
+
+<script src="/opt/main-bsz.min.js"></script>
+
+    </div>
+</body>
+</html>

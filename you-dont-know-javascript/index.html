@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>《你不知道的javascript》小记 | Oceania&#39;s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="javascript" />
+    
+    <meta name="description" content="作用域与闭包javascript 也能称为一门编译语言，由浏览器引擎将js代码转为机器码传统编译语言在源代码执行之前的三个步骤 词法分析。将代码块拆分为词法单元（根据空格分开） 语法分析。将词法单元转换为抽象语法树（AST） 代码生成。将AST转换为可执行代码（机器指令）作用域相关的三个角色 引擎。负责整个javascript程序的编译与执行 编译器。负责语法分析及代码生成· 作用域。负责收集和维">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《你不知道的javascript》小记">
+<meta property="og:url" content="http://www.wuzhouyang.cn/you-dont-know-javascript/index.html">
+<meta property="og:site_name" content="Oceania's">
+<meta property="og:description" content="作用域与闭包javascript 也能称为一门编译语言，由浏览器引擎将js代码转为机器码传统编译语言在源代码执行之前的三个步骤 词法分析。将代码块拆分为词法单元（根据空格分开） 语法分析。将词法单元转换为抽象语法树（AST） 代码生成。将AST转换为可执行代码（机器指令）作用域相关的三个角色 引擎。负责整个javascript程序的编译与执行 编译器。负责语法分析及代码生成· 作用域。负责收集和维">
+<meta property="og:image" content="http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg">
+<meta property="og:updated_time" content="2017-06-13T09:07:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《你不知道的javascript》小记">
+<meta name="twitter:description" content="作用域与闭包javascript 也能称为一门编译语言，由浏览器引擎将js代码转为机器码传统编译语言在源代码执行之前的三个步骤 词法分析。将代码块拆分为词法单元（根据空格分开） 语法分析。将词法单元转换为抽象语法树（AST） 代码生成。将AST转换为可执行代码（机器指令）作用域相关的三个角色 引擎。负责整个javascript程序的编译与执行 编译器。负责语法分析及代码生成· 作用域。负责收集和维">
+<meta name="twitter:image" content="http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Oceania&#39;s" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/opt/style.min.css">
+    
+    
+
+    <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_25zh9f3hv8s8xgvi.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/29184/590992ddf629d80ea043f6c8.css">
+    <link rel="stylesheet" href="http://cdn.webfont.youziku.com/webfonts/nomal/101241/45803/590ad459f629d81848e8c7e4.css"> -->
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="/opt/gallery.min.css">
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo">Oceania&#39;s</a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Yep, you are right.</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon iconfont icon-menu"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" href="/">主页</a>
+                                        </li>
+                                    
+                               
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/IT-Code/">IT-Code</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/My-Life/">My Life</a></li></ul>
+                                    
+                               
+                                        <li class="main-nav-list-item" >
+                                            <a class="main-nav-list-link" target="_blank" href="/resume">简历</a>
+                                        </li>
+                                    
+                               
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <span class="iconfont icon-sousuo"></span>
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="iconfont icon-close"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/IT-Code/">IT-Code</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-you-dont-know-javascript" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        《你不知道的javascript》小记
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/you-dont-know-javascript/" class="article-date">
+            <time datetime="2017-06-13T09:02:28.000Z" itemprop="datePublished">2017-06-13</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="iconfont icon-tag"></i>
+        <a class="tag-link" href="/tags/javascript/">javascript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="作用域与闭包"><a href="#作用域与闭包" class="headerlink" title="作用域与闭包"></a>作用域与闭包</h3><h5 id="javascript-也能称为一门编译语言，由浏览器引擎将js代码转为机器码"><a href="#javascript-也能称为一门编译语言，由浏览器引擎将js代码转为机器码" class="headerlink" title="javascript 也能称为一门编译语言，由浏览器引擎将js代码转为机器码"></a>javascript 也能称为一门编译语言，由浏览器引擎将js代码转为机器码</h5><h5 id="传统编译语言在源代码执行之前的三个步骤"><a href="#传统编译语言在源代码执行之前的三个步骤" class="headerlink" title="传统编译语言在源代码执行之前的三个步骤"></a>传统编译语言在源代码执行之前的三个步骤</h5><ul>
+<li>词法分析。将代码块拆分为词法单元（根据空格分开）</li>
+<li>语法分析。将词法单元转换为抽象语法树（AST）</li>
+<li>代码生成。将AST转换为可执行代码（机器指令）<h5 id="作用域相关的三个角色"><a href="#作用域相关的三个角色" class="headerlink" title="作用域相关的三个角色"></a>作用域相关的三个角色</h5></li>
+<li>引擎。负责整个javascript程序的编译与执行</li>
+<li>编译器。负责语法分析及代码生成·</li>
+<li>作用域。负责收集和维护由所有声明的标识符组成的一系列查询，并实施一套非常严格的规则</li>
+<li>三个的合作：编译器通过语法分析生成代码，引擎执行代码，查询变量时由作用域协助<h5 id="查询引用"><a href="#查询引用" class="headerlink" title="查询引用"></a>查询引用</h5></li>
+<li>LHS：找到变量容器本身，对其赋值</li>
+<li>RHS：取到某个变量的值<h5 id="作用域嵌套"><a href="#作用域嵌套" class="headerlink" title="作用域嵌套"></a>作用域嵌套</h5>从底层往顶层查询，如果是LHS且顶层查询不到所需标识符，在非严格模式下，会自动生成一个全局标识符，在严格模式下会抛出<code>ReferenceError</code>；如果是RHS且顶层查询不到所需标识符，直接抛出<code>ReferenceError</code><h5 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h5>定义在词法阶段的作用域，也就是我们在写代码的时候就已经确定的作用域<h5 id="遮蔽效应"><a href="#遮蔽效应" class="headerlink" title="遮蔽效应"></a>遮蔽效应</h5>作用域查找会在找到第一个匹配的标识符时停止<h5 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h5></li>
+<li><code>eval</code>。可以动态将字符串视为可执行代码在调用的位置执行，改变相关的词法作用域，性能及安全性有问题，已被废弃</li>
+<li><code>with</code>。重复引用同一个对象中的多个属性的快捷方式。例如：<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> test=&#123;&#125;</div><div class="line"><span class="comment">// a 和 b 会被泄漏到全局中</span></div><div class="line"><span class="keyword">with</span>(test)&#123;</div><div class="line">    a=<span class="string">'a'</span>,</div><div class="line">    b=<span class="string">'b'</span></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>with</code>块中其实是创建了一个新的词法作用域，在里面声明的东西会自动被定义到<code>with</code>所处的函数作用域中</p>
+<h5 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h5><p>属于这个函数的全部变量都可以在整个函数的范围内使用及复用</p>
+<h5 id="函数声明与函数表达式区别看法"><a href="#函数声明与函数表达式区别看法" class="headerlink" title="函数声明与函数表达式区别看法"></a>函数声明与函数表达式区别看法</h5><p><code>function</code>如果是声明中的第一个词，那么就是函数声明，否则是函数表达式</p>
+<h5 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h5><p>javascript中有块作用域效果的结构：</p>
+<ul>
+<li><code>with</code>。在<code>with</code>块中的是一个独立的作用域</li>
+<li><code>try...catch...</code>语句。<code>catch</code>中捕获到异常只能在其块中使用</li>
+<li>ES6 支持块级作用域，关键字有<code>let</code>、<code>const</code><h5 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h5></li>
+<li>变量和函数在内的所有声明都会在任何代码被执行前首先被处理，定义声明是在编译阶段进行，赋值声明会在原地等待执行阶段</li>
+<li>函数声明会被提升，函数表达式不会被提升</li>
+<li>函数内的变量提升会被提升到函数的顶部</li>
+<li>函数会被优先提升，然后才是变量<h5 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h5></li>
+<li>当函数可以记住并访问所在的词法作用域时，就产生了闭包，即使函数时在当前词法作用域之外执行</li>
+<li>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引用，无论在何处执行这个函数都会使用闭包<h5 id="一个简单的现在模块机制"><a href="#一个简单的现在模块机制" class="headerlink" title="一个简单的现在模块机制"></a>一个简单的现在模块机制</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> MyModules=(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//单例</span></div><div class="line">    <span class="keyword">var</span> modules=&#123;&#125;</div><div class="line">    <span class="comment">//模块定义</span></div><div class="line">    <span class="comment">//name 模块名称</span></div><div class="line">    <span class="comment">//deps 模块依赖</span></div><div class="line">    <span class="comment">//main 模块主体</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">define</span>(<span class="params">name,deps,main</span>)</span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;deps.length;i++)&#123;</div><div class="line">            <span class="comment">//取到依赖实体</span></div><div class="line">            deps[i]=modules[deps[i]]</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//存储当前定义模块</span></div><div class="line">        modules[name]=main.apply(main,deps)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//获取模块</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> modules[name]</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">define</span>:define,</div><div class="line">        <span class="attr">get</span>:get</div><div class="line">    &#125;</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="comment">//测试</span></div><div class="line">MyModules.define(<span class="string">'a'</span>,[],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">sth</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(sth)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">say</span>:say</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">MyModules.define(<span class="string">'b'</span>,[<span class="string">'a'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">    a.say(<span class="string">'I am b'</span>)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">MyModules.get(<span class="string">'b'</span>)()   <span class="comment">// 'I am b'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="this与原型"><a href="#this与原型" class="headerlink" title="this与原型"></a><code>this</code>与原型</h3><h5 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于<code>this</code></h5><ul>
+<li><code>this</code>在任何情况下都不指向函数的词法作用域，作用域“对象”无法通过javascript访问，它存在于javascript引擎内部</li>
+<li><code>this</code>是在运行时绑定的，它的上下文取决于函数调用的方式<h5 id="this绑定规则"><a href="#this绑定规则" class="headerlink" title="this绑定规则"></a><code>this</code>绑定规则</h5></li>
+<li>默认绑定：独立函数调用，非严格模式下直接绑定到全局上下文</li>
+<li>隐式绑定：被某个对象包含或拥有、调用，直接绑定到此上下文对象中，有可能造成隐式丢失（把对象包含的函数赋值到另外的变量中并调用）</li>
+<li>显式绑定：调用<code>call</code>、<code>apply</code>、<code>bind</code>强制改变执行上下文</li>
+<li><code>new</code>绑定：使用<code>new</code>来调用函数，会创建一个全新的对象、这个新对象会绑定到函数调用的<code>this</code><h5 id="绑定规则优先级"><a href="#绑定规则优先级" class="headerlink" title="绑定规则优先级"></a>绑定规则优先级</h5><code>new</code>&gt;显式绑定&gt;隐式绑定&gt;默认绑定<h5 id="参数简单柯里化"><a href="#参数简单柯里化" class="headerlink" title="参数简单柯里化"></a>参数简单柯里化</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">klh</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> dmz= <span class="built_in">Object</span>.create(<span class="literal">null</span>)</div><div class="line">klh.apply(dmz,[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line"><span class="comment">// or</span></div><div class="line">klh.bind(dmz,<span class="number">1</span>)</div><div class="line">klh(<span class="number">2</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="ES6的箭头函数"><a href="#ES6的箭头函数" class="headerlink" title="ES6的箭头函数"></a>ES6的箭头函数</h5><ul>
+<li>箭头函数不使用四种标准规则，而是根据外层作用域来决定<code>this</code>,箭头函数会继承外层函数调用的<code>this</code>绑定</li>
+<li>箭头函数没有一个自己的<code>this</code>，但当你在内部使用了<code>this</code>，常规的局部作用域准则就起作用了，它会指向最近一层作用域内的<code>this</code><h5 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h5></li>
+<li>6种主要类型：<code>string</code>,<code>number</code>,<code>boolean</code>,<code>null</code>,<code>undefined</code>,<code>object</code></li>
+<li>简单基本类型：<code>string</code>,<code>number</code>,<code>boolean</code>,<code>null</code>,<code>undefined</code></li>
+<li>内置对象：<code>String</code>,<code>Number</code>,<code>Boolean</code>,<code>Object</code>,<code>Function</code>,<code>Array</code>,<code>Date</code>,<code>RegExp</code>,<code>Error</code><h5 id="属性描述符"><a href="#属性描述符" class="headerlink" title="属性描述符"></a>属性描述符</h5>ES5中所有的对象属性都有对应的属性描述符，一个属性都有4个描述符：<br><code>value</code>（数据值）、<code>writable</code>（可写）、<code>enumerable</code>（可枚举）、<code>configurable</code>（可配置）<br>修改属性描述符（可配置）：<code>Object.defineProperty</code><br>获取属性描述符：<code>Object.getOwnPropertyDescriptor</code><br>判断是否存在属性（会检查原型）：<code>(&#39;x&#39; in myObject)</code><br>判断是否存在属性（只检查对象本身）：<code>myObject.hasOwnProperty(&#39;x&#39;)</code><br>ES6  <code>for...of</code>直接遍历值：数组有内置的<strong>@@iterator</strong>，如果想给某个对象支持<code>for...of</code>，可以添加一个<strong>@@iterator</strong>对象：<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> myObject=&#123;</div><div class="line">    <span class="attr">a</span>:<span class="number">1</span>,</div><div class="line">    <span class="attr">b</span>:<span class="number">2</span>,</div><div class="line">    <span class="attr">c</span>:<span class="number">3</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">Object</span>.defineProperty(myObject,<span class="built_in">Symbol</span>.iterator,&#123;</div><div class="line">    <span class="attr">enumerable</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">writable</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">value</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> _this=<span class="keyword">this</span></div><div class="line">        <span class="keyword">var</span> index=<span class="number">0</span></div><div class="line">        <span class="keyword">var</span> keys=<span class="built_in">Object</span>.keys(_this)</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">next</span>:<span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">                <span class="keyword">return</span>&#123;</div><div class="line">                    <span class="attr">value</span>:_this[keys[index++]],</div><div class="line">                    <span class="attr">done</span>:(index&gt;keys.length)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="类"><a href="#类" class="headerlink" title="类"></a>类</h5><ul>
+<li>javascript 中的类与其他语言中的类完全不同</li>
+<li>类意味着复制</li>
+<li>类的多态、继承都是通过复制而来，传统类被实例化时，它的行为会被复制到实例中；类被继承时，行为也会被复制到子类中</li>
+<li>javascript 并不会像类一样自动创建对象的副本（复制）</li>
+<li>可以通过混入来实现伪多态，实际上只是遍历另一个对象的所有属性和函数、通过筛选复制唯一的到新的对象上<h5 id="prototype"><a href="#prototype" class="headerlink" title="[[prototype]]"></a>[[prototype]]</h5>几乎所有的对象在创建时<code>[[prototype]]</code>属性都会被赋予一个非空的值（<code>Object.create(null)</code>除外）</li>
+</ul>
+<p>操作对象不存在某个属性，但是原型链上存在某个属性，此时在操作对象声明同名属性（<code>=</code>操作符）会发生的三种情况：</p>
+<ol>
+<li>原型上的属性没有标记为只读，则操作对象生成同名属性，造成屏蔽效果</li>
+<li>原型上的属性标记为只读，则无法修改现有属性或者创建新属性</li>
+<li>原型上的属性有<code>setter</code>，则一定会调用此<code>setter</code>，不会在操作对象上添加新属性<br>使用<code>Object.defineProperty</code>则没有上述问题</li>
+</ol>
+<p>继承意味着复制操作，javascript默认并不会复制对象属性。相反，javascript会在两个对象之间创建一种关联，这样一个对象就可以通过委托访问另一个对象的属性和函数。</p>
+<p><code>new</code>会挟持所有普通函数并用构造对象的形式来调用他，函数首字母大写只是一种规范</p>
+<p>待更新</p>
+
+        </div>
+        <footer class="article-footer">
+            <span id="busuanzi_container_page_pv">
+    <span class="font cssa7776c51d18b79">本文浏览次数</span>
+    <span class="iconfont icon-liulan"></span>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+            
+
+
+
+    <a data-url="http://www.wuzhouyang.cn/you-dont-know-javascript/" data-id="cj3vchgps0025goo7kki2ljun" class="article-share-link"><i class="iconfont icon-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://service.weibo.com/share/share.php?url=' + encodedUrl + '" class="article-share-sina" target="_blank" title="Sina"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ3Ni81MDQ3">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0]
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar">
+        <i class="toggle iconfont icon-arrow-right-double"></i>
+    </a>
+    <div class="sidebar-top">
+        <p>More :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="coding" href="https://coding.net/u/wuzhouyang" target="_blank">
+                        <i class="iconfont icon-coding"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="jianshu" href="http://www.jianshu.com/u/824b4062fb33" target="_blank">
+                        <i class="iconfont icon-jianshu"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="segmentfault" href="https://segmentfault.com/u/oceania" target="_blank">
+                        <i class="iconfont icon-segmentfault"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="iconfont icon-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/vue-cli-2-sass-webkit-flex/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题
+        
+        </p>
+        <i class="icon iconfont icon-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/you-dont-know-javascript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/you-dont-know-javascripthttps-%252F%252Fcdn.evbuc.com%252Fimages%252F28852998%252F3375201173%252F1%252Foriginal.jpg)" alt="《你不知道的javascript》小记" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/you-dont-know-javascript/" class="title">《你不知道的javascript》小记</a></p>
+                            <p class="item-date"><time datetime="2017-06-13T09:02:28.000Z" itemprop="datePublished">2017-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/vue-cli-2-sass-webkit-flex/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/vue-cli-2-sass-webkit-flexthumbnail.gif)" alt="vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/vue-cli-2-sass-webkit-flex/" class="title">vue-cli 2 中默认打包编译 sass 后造成 -webkit-flex 消失问题</a></p>
+                            <p class="item-date"><time datetime="2017-05-18T07:49:17.000Z" itemprop="datePublished">2017-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/new-nikor-50-1-4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/new-nikor-50-1-4new-nikor-50-1-4DSCF1416-5.jpg)" alt="购入nikor 50mm f1.4 老镜头一枚" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/My-Life/">My Life</a></p>
+                            <p class="item-title"><a href="/new-nikor-50-1-4/" class="title">购入nikor 50mm f1.4 老镜头一枚</a></p>
+                            <p class="item-date"><time datetime="2017-05-10T10:55:29.000Z" itemprop="datePublished">2017-05-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/photos-layout-plugin-ocaskjs/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/photos-layout-plugin-ocaskjsdefault_css.png)" alt="写个小小图片布局插件 -- OCask.js" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/photos-layout-plugin-ocaskjs/" class="title">写个小小图片布局插件 -- OCask.js</a></p>
+                            <p class="item-date"><time datetime="2017-05-03T08:18:13.000Z" itemprop="datePublished">2017-05-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/use-gulp-to-optimize-hexo/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://oocdrjgwi.bkt.clouddn.com/use-gulp-to-optimize-hexogulp-in.png)" alt="使用 gulp 来优化自己的 hexo 博客" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IT-Code/">IT-Code</a></p>
+                            <p class="item-title"><a href="/use-gulp-to-optimize-hexo/" class="title">使用 gulp 来优化自己的 hexo 博客</a></p>
+                            <p class="item-date"><time datetime="2017-04-20T10:00:49.000Z" itemprop="datePublished">2017-04-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/angular/" style="font-size: 20px;">angular</a> <a href="/tags/aot/" style="font-size: 10px;">aot</a> <a href="/tags/centos/" style="font-size: 16px;">centos</a> <a href="/tags/coding/" style="font-size: 14px;">coding</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/css3/" style="font-size: 12px;">css3</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/github/" style="font-size: 18px;">github</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/hexo/" style="font-size: 12px;">hexo</a> <a href="/tags/hmr/" style="font-size: 12px;">hmr</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/npm-script/" style="font-size: 12px;">npm script</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/scss/" style="font-size: 16px;">scss</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/typescript/" style="font-size: 20px;">typescript</a> <a href="/tags/vps/" style="font-size: 16px;">vps</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-cli/" style="font-size: 10px;">vue-cli</a> <a href="/tags/vultr/" style="font-size: 12px;">vultr</a> <a href="/tags/webpack/" style="font-size: 16px;">webpack</a> <a href="/tags/无反/" style="font-size: 12px;">无反</a> <a href="/tags/镜头/" style="font-size: 10px;">镜头</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">友链</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://github.com/ppoffice">Hueman Themes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon iconfont icon-huojian"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo">Oceania&#39;s</a>
+                </h1>
+                <span id="busuanzi_container_site_pv">
+                    <span class="countfa iconfont icon-dianji"></span><span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span class="countfa iconfont icon-users"></span><span id="busuanzi_value_site_uv"></span>
+                </span>
+                <p>&copy; 2017 oceania ( 吴 洲洋 )</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    <script src="/opt/header.min.js"></script>
+
+
+<script src="/opt/main-bsz.min.js"></script>
+
+    </div>
+</body>
+</html>
